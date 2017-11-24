@@ -1,7 +1,7 @@
 package use_case
 
 import (
-	. "github.com/azbshiri/first-example/domain_object"
+	. "github.com/azbshiri/reinigen/domain_object"
 )
 
 var appointments = []*Appointment{

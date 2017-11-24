@@ -3,8 +3,8 @@ package handler
 import (
 	"net/http"
 
-	. "github.com/azbshiri/first-example/domain_object"
-	. "github.com/azbshiri/first-example/use_case"
+	. "github.com/azbshiri/reinigen/domain_object"
+	. "github.com/azbshiri/reinigen/use_case"
 	"github.com/pquerna/ffjson/ffjson"
 )
 

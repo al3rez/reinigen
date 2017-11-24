@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 
-	"github.com/azbshiri/first-example/delivery_mechanism/http/handler"
+	"github.com/azbshiri/reinigen/delivery_mechanism/http/handler"
 	"github.com/go-zoo/bone"
 )
 
