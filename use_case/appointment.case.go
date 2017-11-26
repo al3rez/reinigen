@@ -1,18 +1,17 @@
 package use_case
 
 import (
+	"errors"
+
+	. "github.com/azbshiri/reinigen/datastore"
 	. "github.com/azbshiri/reinigen/domain_object"
 )
 
-var appointments = []*Appointment{
-	NewAppointment(WithID(1)),
-	NewAppointment(WithID(2)),
-	NewAppointment(WithID(3)),
-	NewAppointment(WithID(4)),
-}
-
-// CreateAppointment ...
-func CreateAppointment(attrs ...AppointmentAttr) (*Appointment, error) {
-	appointemnt := NewAppointment(attrs...)
-	return appointemnt, nil
+// ShowAppointment ...
+func ShowAppointment(dataStore AppointmentDataStorer, id int64) (*Appointment, error) {
+	appointment, err := dataStore.Find(id)
+	if err != nil {
+		return nil, errors.New("Appointment not found")
+	}
+	return appointment, nil
 }
