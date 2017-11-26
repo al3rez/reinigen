@@ -2,36 +2,37 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 
-	. "github.com/azbshiri/reinigen/domain_object"
-	. "github.com/azbshiri/reinigen/use_case"
 	"github.com/pquerna/ffjson/ffjson"
+
+	"github.com/go-zoo/bone"
+
+	. "github.com/azbshiri/reinigen/datastore"
+	. "github.com/azbshiri/reinigen/use_case"
 )
 
 var Appointments = map[string]http.HandlerFunc{
-	"Create": Create(),
+	"Show": Show(),
 }
 
-func Create() http.HandlerFunc {
+var AppointmentDataStore AppointmentDataStorer
+
+func Show() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var appointemnt Appointment
-		err := ffjson.NewDecoder().DecodeReader(r.Body, &appointemnt)
+		id, err := strconv.Atoi(bone.GetValue(r, "id"))
 		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
+			http.Error(w, "Invalid Id", 401)
 			return
 		}
-		defer r.Body.Close()
 
-		appointment, err := CreateAppointment(WithID(appointemnt.ID),
-			WithCreatedAt(appointemnt.CreatedAt),
-			WithUpdatedAt(appointemnt.UpdatedAt))
+		appointment, err := ShowAppointment(AppointmentDataStore, int64(id))
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			http.Error(w, err.Error(), 404)
 			return
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
 		ffjson.NewEncoder(w).Encode(appointment)
 		return
 	}
