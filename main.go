@@ -16,8 +16,8 @@ func main() {
 	})
 	handler.AppointmentDataStore = NewPostgresAppointmentDataStore(db)
 
-	router := bone.New()
-	router.Post("/appointments", handler.Appointments["Create"])
-	router.Get("/appointments/:id", handler.Appointments["Show"])
-	http.ListenAndServe(":6000", router)
+	mux := bone.New()
+	mux.Post("/appointments", handler.Appointments["Create"])
+	mux.Get("/appointments/:id", handler.Appointments["Show"])
+	http.ListenAndServe(":6000", mux)
 }
