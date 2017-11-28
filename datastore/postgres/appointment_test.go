@@ -56,3 +56,25 @@ func TestPostgresAppointmentDataStore_Find_NotFound(t *testing.T) {
 
 	assert.Equal(t, err.Error(), "Appointment not found")
 }
+
+func TestPostgresAppointmentDataStore_All(t *testing.T) {
+	var err error
+	date := time.Now()
+	err = db.CreateTable(&Appointment{}, nil)
+	if err != nil {
+		db.DropTable(&Appointment{}, nil)
+		db.CreateTable(&Appointment{}, nil)
+	}
+	err = db.Insert(NewAppointment(WithID(1), WithCreatedAt(date)))
+	err = db.Insert(NewAppointment(WithID(2), WithCreatedAt(date)))
+	err = db.Insert(NewAppointment(WithID(3), WithCreatedAt(date)))
+	if err != nil {
+		panic(err)
+	}
+
+	dataStore := NewPostgresAppointmentDataStore(db)
+
+	appointments, err := dataStore.All()
+
+	assert.Equal(t, len(appointments), 3)
+}

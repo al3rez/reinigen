@@ -26,3 +26,13 @@ func (p *PostgresAppointmentDataStore) Find(id int64) (*Appointment, error) {
 
 	return &appointment, nil
 }
+
+func (p *PostgresAppointmentDataStore) All() ([]*Appointment, error) {
+	var appointments []*Appointment
+	err := p.db.Model(&appointments).Select()
+	if err != nil {
+		return nil, errors.Wrap(err, "PostgresAppointmentDataStore.All")
+	}
+
+	return appointments, nil
+}

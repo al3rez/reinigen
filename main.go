@@ -18,6 +18,7 @@ func main() {
 
 	mux := bone.New()
 	mux.Post("/appointments", handler.Appointments["Create"])
+	mux.Get("/appointments", handler.Appointments["Index"])
 	mux.Get("/appointments/:id", handler.Appointments["Show"])
 	http.ListenAndServe(":6000", mux)
 }

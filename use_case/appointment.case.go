@@ -1,7 +1,7 @@
 package use_case
 
 import (
-	"errors"
+	"github.com/pkg/errors"
 
 	. "github.com/azbshiri/reinigen/datastore"
 	. "github.com/azbshiri/reinigen/domain_object"
@@ -14,4 +14,12 @@ func ShowAppointment(dataStore AppointmentDataStorer, id int64) (*Appointment, e
 		return nil, errors.New("Appointment not found")
 	}
 	return appointment, nil
+}
+
+func IndexAppointment(dataStore AppointmentDataStorer) ([]*Appointment, error) {
+	appointments, err := dataStore.All()
+	if err != nil {
+		return nil, errors.Wrap(err, "IndexAppointment")
+	}
+	return appointments, nil
 }
